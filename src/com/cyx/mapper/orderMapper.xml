@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须要和Mapper接口名字一致 -->
+<!-- id必须要和Mapper中的方法名一致 -->
+<mapper namespace="com.cyx.mapper.OrderMapper">
+	<insert id="addOrder" parameterType="com.cyx.entity.Order">
+		insert into
+		`order`
+		(order_id,good_id,user_id,receiver,phone,address)
+		values
+		(#{orderId},#{goodId},#{userId},#{receiver},#{phone},#{address})
+	</insert>
+	
+	<select id="findOrderByUserId" parameterType="String" resultType="com.cyx.entity.Order">
+		select order_id as orderId,good_id as goodId,user_id as userId,receiver,phone,address,create_time as createTime
+		from
+		`order`
+		where user_id = #{userId}
+	</select>
+	
+	<select id="findOrderPurchaseByGoodId" parameterType="String" resultType="com.cyx.entity.Order">
+		select order_id as orderId,good_id as goodId,`order`.user_id as userId,receiver,phone,address,create_time as createTime,user_name as userName
+		from
+		`order`,`user`
+		where good_id = #{goodId}
+		and `order`.user_id = `user`.user_id
+	</select>
+	
+	<select id="findOrderByOrderId" parameterType="String" resultType="com.cyx.entity.Order">
+		select order_id as orderId,good_id as goodId,`order`.user_id as userId,receiver,phone,address,create_time as createTime,user_name as userName
+		from
+		`order`,`user`
+		where order_id = #{orderId}
+		and `order`.user_id = `user`.user_id
+	</select>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须要和Mapper接口名字一致 -->
+<!-- id必须要和Mapper中的方法名一致 -->
+<mapper namespace="com.cyx.mapper.GoodMapper">
+
+	<insert id="addGood" parameterType="com.cyx.entity.Good">
+		insert into
+		good
+		(good_id,good_name,user_id,img,price,good_type,good_status)
+		values
+		(#{goodId},#{goodName},#{userId},#{img},#{price},#{goodType},#{goodStatus})
+	</insert>
+	
+	<select id="findGoodSaleByUserId" parameterType="String" resultType="com.cyx.entity.Good">
+		select good_id as goodId,good_name as goodName,price,good_type as goodType,good_status as goodStatus,create_time as createTime
+		from
+		good
+		where user_id = #{userId}
+	</select>
+	
+	<update id="updateGoodSalesDetailByGoodId">
+		update
+		good set
+		good_name=#{good.goodName},
+		img=#{good.img},
+		price=#{good.price},
+		good_type=#{good.goodType}
+		where
+		good_id=#{goodId}
+	</update>
+	
+	<select id="findGoodSalesDetailByGoodId" parameterType="String" resultType="com.cyx.entity.Good">
+		select good_id as goodId,good_name as goodName,good.user_id as userId,img,price,good_type as goodType,good_status as goodStatus,create_time as createTime,user_name as userName
+		from
+		good,`user`
+		where good_id = #{goodId}
+		and good.user_id = `user`.user_id
+	</select>
+	
+	<delete id="deleteGoodSalesByGoodId" parameterType="String">
+		delete from
+		good
+		where
+		good_Id = #{goodId}
+	</delete>
+	
+	<select id="findGood" parameterType="String" resultType="com.cyx.entity.Good">
+		select good.user_id as userID,good_id as goodId,good_name as goodName,img,price,good_type as goodType,good_status as goodStatus,create_time as createTime,user_name as userName
+		from
+		good,`user`
+		where good.user_id = `user`.user_id
+	</select>
+	
+	<update id="updateGoodByGoodId">
+		update
+		good set
+		good_type=#{good.goodType},
+		good_status=#{good.goodStatus}
+		where
+		good_id=#{goodId}
+	</update>
+	
+	<select id="findGoodWeichushou" parameterType="String" resultType="com.cyx.entity.Good">
+		select good.user_id as userId,good_id as goodId,good_name as goodName,img,price,good_type as goodType,good_status as goodStatus,create_time as createTime,user_name as userName
+		from
+		good,`user`
+		where good.user_id = `user`.user_id 
+		and good_status = 0
+		and good.user_id !=#{userId}
+	</select>
+	
+	<update id="goodPurchase">
+		update
+		good set
+		good_status=1
+		where
+		good_id=#{goodId}
+	</update>
+	
+</mapper>

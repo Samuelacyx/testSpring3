@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须要和Mapper接口名字一致 -->
+<!-- id必须要和Mapper中的方法名一致 -->
+<mapper namespace="com.cyx.mapper.UserInfoMapper">
+	<!-- 添加用户信息 -->
+	<insert id="addUserInfo" parameterType="com.cyx.entity.UserInfo">
+		insert into
+		user_info
+		(user_id,sex,school,address,status,mobile)
+		values
+		(#{userId},#{sex},#{school},#{address},#{status},#{mobile})
+	</insert>
+	
+	<select id="findUserInfo" resultType="com.cyx.entity.UserInfo">
+	select user_id as userId,sex,school,address,status,mobile from user_info
+	</select>
+	
+		
+	<select id="findUserInfoById" parameterType="String" resultType="com.cyx.entity.UserInfo">
+		select user_id as userId,sex,school,address,status,mobile 
+		from
+		user_info
+		where user_id = #{userId}
+	</select>
+	
+	<update id="updateUserInfoById">
+		update
+		user_info set
+		sex=#{userInfo.sex},
+		school=#{userInfo.school},
+		address=#{userInfo.address},
+		status=#{userInfo.status},
+		mobile=#{userInfo.mobile}
+		where
+		user_id=#{userId}
+	</update>
+</mapper>

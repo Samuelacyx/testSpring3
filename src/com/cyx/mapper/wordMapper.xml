@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须要和Mapper接口名字一致 -->
+<!-- id必须要和Mapper中的方法名一致 -->
+<mapper namespace="com.cyx.mapper.WordMapper">
+	<insert id="addWord" parameterType="com.cyx.entity.Word">
+		insert into
+		word
+		(word_id,user_id,user_name,content,word_status)
+		values
+		(#{wordId},#{userId},#{userName},#{content},0)
+	</insert>
+	
+	<select id="findWordListByUserId" parameterType="String"
+		resultType="com.cyx.entity.Word">
+		select word_id as wordId,user_id as userId,user_name as userName,content,word_status as wordStatus,create_time as createTime
+		from word
+		where user_id=#{userId}
+	</select>
+	
+	<select id="findWordListAll" resultType="com.cyx.entity.Word">
+		select word_id as wordId,user_id as userId,user_name as userName,content,word_status as wordStatus,create_time as createTime
+		from word
+	</select>
+	
+	<select id="findWordListByWordId" parameterType="String" resultType="com.cyx.entity.Word">
+		select word_id as wordId,user_id as userId,user_name as userName,content,word_status as wordStatus,create_time as createTime
+		from word
+		where word_id=#{wordId}
+	</select>
+	
+	<update id="updateWordStatusByWordId" >
+		update
+		word set
+		word_status=#{word.wordStatus}
+		where
+		word_id=#{wordId}
+	</update>
+</mapper>
